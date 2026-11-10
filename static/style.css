@@ -1,0 +1,12 @@
+body { background: #f5f7fb; color: #202938; }
+.card { border: 1px solid #e5e9f0; border-radius: 14px; box-shadow: 0 4px 16px rgba(20,35,60,.04); }
+.stat-card .display-6 { font-weight: 700; margin-top: .35rem; }
+.stat-card.warning { border-left: 5px solid #f0ad24; }
+.stat-card.danger { border-left: 5px solid #dc3545; }
+.form-card { max-width: 900px; }
+.restock-input { width: 78px; }
+.table th { white-space: nowrap; font-size: .88rem; color: #5b6473; }
+.chat-card { max-width: 850px; }
+.assistant-bubble, .user-bubble { padding: 14px 16px; border-radius: 12px; max-width: 90%; }
+.assistant-bubble { background: #eef2f8; }
+.user-bubble { background: #e3f2e9; margin: 14px 0 0 auto; }

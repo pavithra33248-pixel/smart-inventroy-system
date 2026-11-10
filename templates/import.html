@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Import CSV | Smart Inventory{% endblock %}
+{% block content %}
+<h1 class="h3">Import Kaggle inventory CSV</h1>
+<p class="text-secondary">Upload <code>retail_store_inventory.csv</code>. The app reads the dataset and imports the latest row for each store/product combination.</p>
+<div class="card form-card"><div class="card-body">
+<form method="post" enctype="multipart/form-data">
+<label class="form-label" for="file">CSV file</label><input id="file" class="form-control mb-3" type="file" name="file" accept=".csv,text/csv" required>
+<button class="btn btn-primary">Import CSV</button>
+</form></div></div>
+<div class="alert alert-warning mt-3"><strong>Important:</strong> the dataset uses Product ID, Store ID, Inventory Level and Price. Product IDs are used as display names because the dataset does not provide descriptive product names. Importing again updates existing store/product quantities to the dataset's latest record.</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Notifications | Smart Inventory{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3"><h1 class="h3 mb-0">Stock notifications</h1><form method="post" action="{{ url_for('read_notifications') }}"><button class="btn btn-outline-secondary btn-sm">Mark all as read</button></form></div>
+{% for n in notifications %}<div class="alert {% if n.alert_type == 'OUT_OF_STOCK' %}alert-danger{% else %}alert-warning{% endif %} d-flex justify-content-between align-items-start">
+<div><strong>{{ n.alert_type.replace('_',' ') }}</strong><br>{{ n.message }}<br><small>{{ n.store_id }} · {{ n.created_at }}</small></div>{% if not n.is_read %}<span class="badge text-bg-primary">New</span>{% endif %}
+</div>{% else %}<div class="card"><div class="card-body text-secondary">No active stock alerts.</div></div>{% endfor %}
+{% endblock %}

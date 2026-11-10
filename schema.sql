@@ -1,0 +1,38 @@
+CREATE DATABASE IF NOT EXISTS smart_inventory
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE smart_inventory;
+
+CREATE TABLE IF NOT EXISTS products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  store_id VARCHAR(30) NOT NULL DEFAULT 'MAIN',
+  product_code VARCHAR(60) NOT NULL,
+  product_name VARCHAR(160) NOT NULL,
+  category VARCHAR(100),
+  quantity INT NOT NULL DEFAULT 0,
+  reorder_level INT NOT NULL DEFAULT 10,
+  unit_price DECIMAL(10,2) NOT NULL DEFAULT 0,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_store_product (store_id, product_code),
+  CHECK (quantity >= 0),
+  CHECK (reorder_level >= 0)
+);
+
+CREATE TABLE IF NOT EXISTS stock_movements (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
+  movement_type ENUM('IMPORT','RESTOCK','ADJUSTMENT') NOT NULL,
+  quantity_change INT NOT NULL,
+  note VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
+  alert_type ENUM('LOW_STOCK','OUT_OF_STOCK') NOT NULL,
+  message VARCHAR(255) NOT NULL,
+  is_read BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);

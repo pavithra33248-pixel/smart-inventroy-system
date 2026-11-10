@@ -1,0 +1,28 @@
+install XAMPP SERVER TO RUN IN YOUR SYSTEM
+
+Step 1: Verify XAMPP Services
+Ensure that both Apache and MySQL modules are running in your XAMPP Control Panel:   Apache status should display running on ports 80, 443.  
+MySQL status should display running on port 3306.
+Step 2: Open Terminal / PowerShell
+Open VS Code (open the project folder D:\smart_inventory_system if preferred) or launch PowerShell from the Windows Start menu
+Navigate to your project directory:
+PowerShell cd D:\smart_inventory_system
+Step 3: Activate the Virtual Environment
+Set the process execution policy to prevent script restriction errors:
+PowerShell  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Activate your virtual environment:
+PowerShell  .\.venv\Scripts\Activate.ps1
+Verification: 
+You should see (.venv) appear at the very beginning of your terminal prompt line. 
+Step 4: Run the Application Server
+Execute the Flask main script:
+PowerShell  python app.py
+Verification:
+ The terminal should output running status logs ending with:
+Plaintext * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+Step 5: Access the Web Dashboard 
+Open your web browser (Google Chrome or Microsoft Edge).   
+Paste the following URL into the address bar and press Enter:
+Plaintext   http://127.0.0.1:5000
+The Smart Inventory Management System dashboard will load on your screen. Keep the terminal running in the background while using the application.

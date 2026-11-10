@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Products | Smart Inventory{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2"><h1 class="h3 mb-0">Products</h1><a class="btn btn-primary" href="{{ url_for('add_product') }}">+ Add product</a></div>
+<form class="row g-2 mb-3"><div class="col-sm-8 col-md-5"><input class="form-control" name="q" value="{{ search }}" placeholder="Search product, code, category, store"></div><div class="col-auto"><button class="btn btn-outline-primary">Search</button><a class="btn btn-outline-secondary" href="{{ url_for('products') }}">Clear</a></div></form>
+<div class="card"><div class="table-responsive"><table class="table table-hover align-middle mb-0">
+<thead><tr><th>Product</th><th>Store</th><th>Category</th><th>Quantity</th><th>Reorder level</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+{% for p in products %}<tr>
+<td><div class="fw-semibold">{{ p.product_name }}</div><small class="text-secondary">{{ p.product_code }}</small></td><td>{{ p.store_id }}</td><td>{{ p.category or '-' }}</td><td>{{ p.quantity }}</td><td>{{ p.reorder_level }}</td><td>{{ "%.2f"|format(p.unit_price) }}</td>
+<td>{% if p.quantity == 0 %}<span class="badge text-bg-danger">Out of stock</span>{% elif p.quantity <= p.reorder_level %}<span class="badge text-bg-warning">Low stock</span>{% else %}<span class="badge text-bg-success">In stock</span>{% endif %}</td>
+<td><div class="d-flex flex-wrap gap-1"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('edit_product', product_id=p.id) }}">Edit</a>
+<form method="post" action="{{ url_for('restock', product_id=p.id) }}" class="d-flex gap-1"><input class="form-control form-control-sm restock-input" type="number" min="1" name="amount" placeholder="+Qty" required><button class="btn btn-sm btn-outline-success">Restock</button></form>
+<form method="post" action="{{ url_for('delete_product', product_id=p.id) }}" onsubmit="return confirm('Delete this product and its history?')"><button class="btn btn-sm btn-outline-danger">Delete</button></form></div></td>
+</tr>{% else %}<tr><td colspan="8" class="text-center text-secondary py-4">No products found. Import your Kaggle CSV or add a product.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

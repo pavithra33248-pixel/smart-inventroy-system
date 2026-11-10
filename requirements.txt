@@ -1,0 +1,4 @@
+Flask>=3.0
+Flask-MySQLdb>=2.0
+pandas>=2.0
+mysqlclient>=2.2

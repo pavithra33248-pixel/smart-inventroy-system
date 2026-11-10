@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Smart Inventory{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+  <div><h1 class="h3 mb-1">Inventory dashboard</h1><p class="text-secondary mb-0">Monitor stock, alerts, and recent activity.</p></div>
+  <a class="btn btn-primary" href="{{ url_for('add_product') }}">+ Add product</a>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-sm-6 col-xl-3"><div class="card stat-card"><div class="card-body"><div class="text-secondary">Products / SKUs</div><div class="display-6">{{ stats.total_products }}</div></div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card stat-card"><div class="card-body"><div class="text-secondary">Units in stock</div><div class="display-6">{{ stats.total_units }}</div></div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card stat-card warning"><div class="card-body"><div class="text-secondary">Low stock</div><div class="display-6">{{ stats.low_stock }}</div></div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card stat-card danger"><div class="card-body"><div class="text-secondary">Out of stock</div><div class="display-6">{{ stats.out_of_stock }}</div></div></div></div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-7"><div class="card h-100"><div class="card-body">
+    <div class="d-flex justify-content-between"><h2 class="h5">Low-stock products</h2><a href="{{ url_for('products') }}">View all</a></div>
+    {% if low_products %}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Product</th><th>Store</th><th>Quantity</th><th>Reorder at</th></tr></thead><tbody>
+    {% for p in low_products %}<tr><td>{{ p.product_name }}</td><td>{{ p.store_id }}</td><td><span class="badge text-bg-warning">{{ p.quantity }}</span></td><td>{{ p.reorder_level }}</td></tr>{% endfor %}
+    </tbody></table></div>{% else %}<p class="text-secondary">No low-stock products. Import the CSV or add products to begin.</p>{% endif %}
+  </div></div></div>
+  <div class="col-lg-5"><div class="card h-100"><div class="card-body"><h2 class="h5">Recent stock movements</h2>
+    {% if recent %}<ul class="list-group list-group-flush">{% for m in recent %}<li class="list-group-item px-0"><div class="fw-semibold">{{ m.product_name }} <span class="badge text-bg-secondary">{{ m.movement_type }}</span></div><small class="text-secondary">{{ m.store_id }} · Change: {{ "%+d"|format(m.quantity_change) }} · {{ m.created_at }}</small></li>{% endfor %}</ul>
+    {% else %}<p class="text-secondary">No movements recorded yet.</p>{% endif %}
+  </div></div></div>
+</div>
+{% endblock %}
